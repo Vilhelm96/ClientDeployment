@@ -1,0 +1,54 @@
+﻿@using System.Globalization
+@using System.Collections
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Internal diagnostics</h1>
+
+<h2>Culture, time and localization</h2>
+<table>
+    <tr>
+        <td>TimeZone</td>
+        <td>@TimeZoneInfo.Local.StandardName</td>
+    </tr>
+    <tr>
+        <td>Current local time</td>
+        <td>@DateTime.Now</td>
+    </tr>
+    <tr>
+        <td>Current Culture</td>
+        <td>@CultureInfo.CurrentCulture.DisplayName</td>
+    </tr>
+    <tr>
+        <td>Current UI Culture</td>
+        <td>@CultureInfo.CurrentUICulture.DisplayName</td>
+    </tr>
+</table>
+
+
+<br />
+<br />
+
+
+<h2>Environment variables</h2>
+<table>
+    @{
+        var vars = Environment.GetEnvironmentVariables();
+
+        var sortedDict = new SortedDictionary<string, string>();
+
+        foreach (DictionaryEntry entry in vars)
+        {
+            sortedDict.Add(entry.Key.ToString(), entry.Value.ToString());
+        }
+
+        foreach (var entry in sortedDict)
+        {
+            <tr>
+                <td>@entry.Key</td>
+                <td>@entry.Value</td>
+            </tr>
+        }
+    }
+</table>

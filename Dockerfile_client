@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+
+WORKDIR /src
+
+COPY . . 
+
+RUN dotnet restore
+
+WORKDIR /src/Client
+
+RUN dotnet publish Client.csproj -c Release -o /app/Client
+
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS release
+
+COPY --from=build /app/Client .
+
+EXPOSE 80
+
+ENTRYPOINT ["dotnet", "Client.dll"]
