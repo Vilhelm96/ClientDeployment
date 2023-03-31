@@ -1,0 +1,10 @@
+on: [push]
+name: Linux_Container_Workflow 
+
+jobs:
+  build-and-deploy-client:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: 'checkout the repo'
+      uses: actions/checkout@v3
