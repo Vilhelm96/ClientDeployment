@@ -19,3 +19,11 @@ jobs:
         registry: ${{ secrets.REGISTRY_NAME }}.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
+    
+    - name: 'Build and push to registry'
+      id: docker_build
+      uses: docker/build-push-action@v4
+      with:
+        file: ./Dockerfile_client
+        push: true
+        tags: ${{ secrets.REGISTRY_NAME }}.azurecr.io/${{ secrets.USERNAME }}-client:${{ github.sha }}
