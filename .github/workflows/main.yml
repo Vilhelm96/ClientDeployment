@@ -27,3 +27,20 @@ jobs:
         file: ./Dockerfile_client
         push: true
         tags: ${{ secrets.REGISTRY_NAME }}.azurecr.io/${{ secrets.USERNAME }}-client:${{ github.sha }}
+
+    - name: 'Deploy to Azure Container Instances'
+      uses: 'azure/aci-deploy@v1'
+      with:
+        resource-group: 'ContainerTraining'
+        dns-name-label: ${{ secrets.USERNAME }}-client
+        image: ${{ secrets.REGISTRY_NAME }}.azurecr.io/${{ secrets.USERNAME }}-client:${{ github.sha }}
+        registry-login-server: ${{ secrets.REGISTRY_NAME }}.azurecr.io
+        registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        name: ${{ secrets.USERNAME }}-client
+        ports: 80 443
+        cpu: 0.5
+        memory: 0.5
+        location: 'northeurope'
+        environment-variables: GITHUB__SHA=${{ github.sha }} ASPNETCORE_ENVIRONMENT=Production
+
